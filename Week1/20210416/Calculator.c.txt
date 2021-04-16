@@ -1,0 +1,75 @@
+#include<stdio.h>
+
+int ALU(int menu);
+void Devide(int menu);
+
+int main() {
+
+	int m;
+	int result;
+
+	while (1) {
+		printf("메뉴 선택\n");
+		printf("1. 덧셈\n");
+		printf("2. 뺄셈\n");
+		printf("3. 곱셈\n");
+		printf("4. 나눗셈\n");
+		printf("5. 종료\n\n");
+	
+		scanf("%d", &m);
+
+		if (m == 4) {
+			Devide(m);
+		}
+		else if(m == 1 || m == 2 || m == 3 || m == 5) {
+			result = ALU(m);
+			if (result == -1) {
+				break;
+			}
+			else {
+				printf("%d\n\n", result);
+			}
+		}
+		else {
+			printf("Out of bound\n\n");
+		}
+	}
+	return 0;
+}
+
+int ALU(int menu) {
+	int n, m;
+
+	if (menu == 1) {
+		printf("수 입력\n");
+		scanf("%d%d", &n, &m);
+		return n + m;
+	}
+	else if (menu == 2) {
+		printf("수 입력\n");
+		scanf("%d%d", &n, &m);
+		return n - m;
+	}
+	else if (menu == 3) {
+		printf("수 입력\n");
+		scanf("%d%d", &n, &m);
+		return n * m;
+	}
+	else if (menu == 5) {
+		return -1;
+	}
+}
+
+void Devide(int menu) {
+	double n, m;
+
+	printf("수 입력\n");
+	scanf("%lf%lf", &n, &m);
+	if (m == 0) {
+		printf("zero devide error\n\n");
+		return;
+	}
+	else {
+		printf("%.2lf\n\n", (n/m));
+	}
+}
