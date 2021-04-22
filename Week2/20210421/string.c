@@ -8,28 +8,28 @@
 //	char *ps2 = str2;
 //
 //	//strcpy(destination, source)
-//	//destination¿¡´Â ¹è¿­ÀÇ ÀÌ¸§ÀÌ³ª, ¹è¿­ Ã¹¹øÂ° ÀÎÀÚÀÇ Æ÷ÀÎÅÍ¸¦ »ç¿ë
+//	//destinationì—ëŠ” ë°°ì—´ì˜ ì´ë¦„ì´ë‚˜, ë°°ì—´ ì²«ë²ˆì§¸ ì¸ìì˜ í¬ì¸í„°ë¥¼ ì‚¬ìš©
 //	//
-//	printf("ÃÖÃÊ ¹®ÀÚ¿­ : %s\n", str1);
+//	printf("ìµœì´ˆ ë¬¸ìì—´ : %s\n", str1);
 //	strcpy(str1, str2);
-//	printf("¹Ù²ï ¹®ÀÚ¿­ : %s\n", str1);
+//	printf("ë°”ë€ ë¬¸ìì—´ : %s\n", str1);
 //
 //	strcpy(str1, ps1);
-//	printf("¹Ù²ï ¹®ÀÚ¿­ : %s\n", str1);
+//	printf("ë°”ë€ ë¬¸ìì—´ : %s\n", str1);
 //
 //	strcpy(str1, ps2);
-//	printf("¹Ù²ï ¹®ÀÚ¿­ : %s\n", str1);
+//	printf("ë°”ë€ ë¬¸ìì—´ : %s\n", str1);
 //
 //	strcpy(str1, "banana");
-//	printf("¹Ù²ï ¹®ÀÚ¿­ : %s\n", str1);
+//	printf("ë°”ë€ ë¬¸ìì—´ : %s\n", str1);
 //
 //	return 0;
 //}
 
-//¹®ÀÚ¿­ »ó¼ö³¢¸®´Â strcpy¸¦ ¾²Áö ¾Ê´Â °ÍÀÌ ÁÁ´Ù
+//ë¬¸ìì—´ ìƒìˆ˜ë¼ë¦¬ëŠ” strcpyë¥¼ ì“°ì§€ ì•ŠëŠ” ê²ƒì´ ì¢‹ë‹¤
 // ex) strcpy("dongwoo", "338");
 
-//¿øÇÏ´Â ¸¸Å­ Àß¶ó¼­ º¹»çÇÏ´Â strncpy() ÇÔ¼ö
+//ì›í•˜ëŠ” ë§Œí¼ ì˜ë¼ì„œ ë³µì‚¬í•˜ëŠ” strncpy() í•¨ìˆ˜
 //int main() {
 //	char str[20] = "mango tree";
 //
@@ -40,13 +40,13 @@
 //	return 0;
 //}
 
-//¹®ÀÚ¿­À» ºÙÀÌ´Â strcat() ÇÔ¼ö´Â ¸Ş¸ğ¸®¸¦ Ä§¹üÇÒ ¼ö ÀÖ´Ù.
-//strcat() ÇÔ¼ö´Â ¹è¿­À» ÃÊ±âÈ­ ÇØÁÖ¾î¾ß ÇÑ´Ù.
+//ë¬¸ìì—´ì„ ë¶™ì´ëŠ” strcat() í•¨ìˆ˜ëŠ” ë©”ëª¨ë¦¬ë¥¼ ì¹¨ë²”í•  ìˆ˜ ìˆë‹¤.
+//strcat() í•¨ìˆ˜ëŠ” ë°°ì—´ì„ ì´ˆê¸°í™” í•´ì£¼ì–´ì•¼ í•œë‹¤.
 
-//¹®ÀÚ¿­À» ºñ±³ÇÏ´Â strcmp, strncmp ÇÔ¼ö
-//ID, ÆĞ½º¿öµå ºñ±³ È¤Àº ¿å¼³ ÇÊÅÍ Á¦ÀÛ¿¡ ÀÚÁÖ ¾²ÀÎ´Ù°í ÇÔ.
+//ë¬¸ìì—´ì„ ë¹„êµí•˜ëŠ” strcmp, strncmp í•¨ìˆ˜
+//ID, íŒ¨ìŠ¤ì›Œë“œ ë¹„êµ í˜¹ì€ ìš•ì„¤ í•„í„° ì œì‘ì— ìì£¼ ì“°ì¸ë‹¤ê³  í•¨.
 
-//mystrcpy ÇÔ¼ö
+//mystrcpy í•¨ìˆ˜
 
 //char *my_strcpy(char *pd, char *ps);
 //char *my_strcat(char *pd, char *ps);
@@ -56,10 +56,10 @@
 //int main() {
 //	char str[80] = "strawberry";
 //
-//	printf("¹Ù²Ù±â Àü ¹®ÀÚ¿­ : %s\n", str);
+//	printf("ë°”ê¾¸ê¸° ì „ ë¬¸ìì—´ : %s\n", str);
 //	my_strcpy(str, "apple");
-//	printf("¹Ù²Û ÈÄ ¹®ÀÚ¿­ : %s\n", str);
-//	printf("´Ù¸¥ ¹®ÀÚ¿­ ´ëÀÔ : %s\n", my_strcpy(str, "kiwi"));
+//	printf("ë°”ê¾¼ í›„ ë¬¸ìì—´ : %s\n", str);
+//	printf("ë‹¤ë¥¸ ë¬¸ìì—´ ëŒ€ì… : %s\n", my_strcpy(str, "kiwi"));
 //
 //	return 0;
 //}
@@ -129,38 +129,31 @@
 //}
 
 int main() {
-	char szBuf[100] = {"I am a boy."};
-	char arr[100];
-	char arr2[100];
+	char szBuf[100] = {"I am a boy. I am happy"};
+	char old[100];
+	char New[100];
 	char szBufBuf[100];
 	char* toChange;
 	char* afterToFind;
-	int size;
-	int arr2size;
+
 	int count = 0;
 	int count2 = 0;
 	int count3 = 0;
 
-	//±âÁ¸ ¹®ÀÚ¿­ Ãâ·Â
-	printf("±âÁ¸ ¹®ÀÚ¿­ : %s\n", szBuf);
-	//Ã£À» ¹®ÀÚ¿­ °Ë»ö
-	printf("Ã£À» ¹®ÀÚ¿­ ÀÔ·Â : \n");
-	scanf("%s", arr);
+	//ê¸°ì¡´ ë¬¸ìì—´ ì¶œë ¥
+	printf("ê¸°ì¡´ ë¬¸ìì—´ : %s\n", szBuf);
+	//ì°¾ì„ ë¬¸ìì—´ ê²€ìƒ‰
+	printf("ì°¾ì„ ë¬¸ìì—´ ì…ë ¥ : \n");
 
-	//¹Ù²Ü ¹®ÀÚ¿­ÀÇ ½ÃÀÛ ÁÖ¼Ò
-	toChange = strstr(szBuf, arr);
+	fgets(old, sizeof(old), stdin);
+    old[strlen(old) - 1] = '\0'; //fgetsì˜ ê°œí–‰ë¬¸ì ì‚­ì œ
 
-	printf("%p\n", toChange);
-	//¹Ù²Ü ¹®ÀÚ¿­ÀÇ ±æÀÌ
-	size = strlen(arr);
-	printf("%d\n", size);
+	//ë°”ê¿€ ë¬¸ìì—´ì˜ ì‹œì‘ ì£¼ì†Œ
+	toChange = strstr(szBuf, old);
 
-	//¹Ù²Ü ¹®ÀÚ¿­ ÀÌÈÄÀÇ ÁÖ¼Ò
-	afterToFind = toChange + size;
 
-	printf("%p\n", afterToFind);
-
-	//¹Ù²Ü ¹®ÀÚ¿­ ÀÌÈÄÀÇ ¹®Àå 
+	//ë°”ê¿€ ë¬¸ìì—´ ì´í›„ì˜ ë¬¸ì¥ì„ szBufBuf ë°°ì—´ì— ì €ì¥
+	afterToFind = toChange + strlen(old); //ë°”ê¿€ ë¬¸ìì—´ ì´í›„ ë‚¨ì€ ë¬¸ìì—´ì˜ ì‹œì‘ ì£¼ì†Œ
 	while (1) {
 		if (*(afterToFind + count) == '\0') {
 			*(szBufBuf + count) = '\0';
@@ -172,23 +165,21 @@ int main() {
 		count++;
 	}
 
-	printf("%s\n", szBufBuf);
-
-	//Ã£´Â ¹®ÀÚ°¡ ¾øÀ» °æ¿ì Á¾·á
+	//ì°¾ëŠ” ë¬¸ìê°€ ì—†ì„ ê²½ìš° ì¢…ë£Œ
 	if (toChange == NULL) {
-		printf("Cannot find '%s'", arr);
-		return;
+		printf("Cannot find '%s'", old);
+		return -1;
 	}
-	//Ã£´Â ¹®ÀÚ°¡ ÀÖÀ» °æ¿ì ¹Ù²Ü ¹®ÀÚ¿­ ÀÔ·Â
+	//ì°¾ëŠ” ë¬¸ìê°€ ìˆì„ ê²½ìš° ë°”ê¿€ ë¬¸ìì—´ ì…ë ¥
 	else {
-		printf("¹Ù²Ü ¹®ÀÚ¿­ ÀÔ·Â : \n");
-		scanf("%s", arr2);
+		printf("ë°”ê¿€ ë¬¸ìì—´ ì…ë ¥ : \n");
+        fgets(New, sizeof(New), stdin);
+        New[strlen(New) - 1] = '\0';
 
-		arr2size = strlen(arr2);
-		// ¹Ù²Ü ¹®ÀÚ¿­·Î º¯°æ
+		// ë°”ê¿€ ë¬¸ìì—´ë¡œ ë³€ê²½
 		while (1) {
-			if (*(arr2 + count2) != '\0') {
-				*(toChange + count2) = *(arr2 + count2);
+			if (*(New + count2) != '\0') {
+				*(toChange + count2) = *(New + count2);
 			}
 			else {
 				break;
@@ -197,7 +188,7 @@ int main() {
 		}
 	}
 	
-	//³²Àº ¹®ÀÚ¿­ ºÙ¿©ÁÖ±â
+	//ë‚¨ì€ ë¬¸ìì—´ ë¶™ì—¬ì£¼ê¸°
 	while (1) {
 		if (*(szBufBuf + count3) == '\0') {
 			break;
