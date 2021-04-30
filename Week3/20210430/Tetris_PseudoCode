@@ -1,0 +1,43 @@
+TETRIS PROCESS PSEUDO CODE:
+
+모든 블록들은 Block 구조체로 선언됨.
+각각 블록은 1x1객체로 조합되어야 함
+
+게임의 점수는 전역변수로 선언하여 득점 시 단순 덧셈만 실행
+
+// 시작 화면 루프 진입
+while True:
+	초기 화면을 출력하는 /*printMain()*/ 함수 실행
+	키보드 입력을 받는 /*getch()*/와 /*kbhit()*/을 이용해 '게임 시작'과 '종료' 중 하나를 선택
+	if 게임시작을 선택했다면:
+		endwhile
+	else if 종료를 선택했다면:
+		return
+
+// 게임 화면 루프 진입
+while :
+	게임 화면을 업데이트 하는 /*Update(char* arr)*/
+	새 블록을 생성하는 /*GenerateBlock(*block)*/함수 실행. (모든 블록은 같은 장소에서 만들어진다.)
+	블록 하강 함수 /*Down(*block, y, char* arr)*/로 블록은 계속 하강
+	/*getch()*/와 /*kbhit()*/을 이용해 키보드 입력과 입력 종류를 감지
+	if 키보드 입력이 되었다면:
+		if 키보드 입력이 윗방향이라면:
+			if 회전될 블록이 벽 그리고 쌓인 블록과 간섭이 없다면 /*collision_check(*block, ywall, x, y)*/ :
+				블록 회전 /*RotateBlock(*block)*/
+		else if 키보드 입력이 왼쪽 방향이라면:
+			if 이동된 블록이 왼쪽 벽 그리고 쌓인 블록과 간섭이 없다면 /*collision_check(*block, ywall, x, y)*/ :
+				블록 이동 /*MoveBlock(*block, dx, dy)*/
+		else if 키보드 입력이 오른쪽 방향이라면 :
+			if 이동된 블록이 오른쪽 벽 그리고 쌓인 블록과 간섭이 없다면 /*collision_check(*block, ywall, x, y)*/ :
+				블록 이동 /*MoveBlock(*block, dx, dy)*/
+		
+	if 블록이 바닥 혹은 쌓인 블록들과 충돌했다면 /*collision_check(*block, x, y)*/ :
+		if 현재 블록과 쌓인 블록을 합친 블록들이 한계선을 넘었다면:
+			endwhile
+		while 쌓인 블록에서 라인이 완성되었는지 검사 /*check_line(char* arr)*/
+			해당 라인 삭제 /*Remove_line(char *arr)*/
+			점수 획득 /*getScore*/
+			해당 라인 이후로 모든 윗 라인을 끌어오는 /*Pull_lines(char* arr)*/
+			endwhile
+endwhile
+return
