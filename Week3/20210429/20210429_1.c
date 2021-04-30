@@ -6,10 +6,10 @@
 //	fp = fopen("data\\a.txt","w");
 //
 //	if (fp == NULL) {
-//		printf("ÆÄÀÏÀÌ ¿­¸®Áö ¾Ê¾Ò½À´Ï´Ù\n");
+//		printf("íŒŒì¼ì´ ì—´ë¦¬ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤\n");
 //		return 1;
 //	}
-//	printf("ÆÄÀÏÀÌ ¿­·È½À´Ï´Ù.");
+//	printf("íŒŒì¼ì´ ì—´ë ¸ìŠµë‹ˆë‹¤.");
 //	fclose(fp);
 //
 //	return 0;
@@ -22,7 +22,7 @@
 //	fp = fopen("\data\\a.txt", "w");
 //
 //	if (fp == NULL) {
-//		printf("ÆÄÀÏÀÌ ¿­¸®Áö ¾Ê¾Ò½À´Ï´Ù.\n");
+//		printf("íŒŒì¼ì´ ì—´ë¦¬ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.\n");
 //		return 1;
 //	}
 //
@@ -95,7 +95,7 @@
 //	}
 //
 //	while (1) {
-//		printf("°úÀÏ ÀÌ¸§ : ");
+//		printf("ê³¼ì¼ ì´ë¦„ : ");
 //		scanf("%s", str);
 //		if (strcmp(str, "end") == 0) {
 //			break;
@@ -153,7 +153,7 @@
 //	}
 //
 //	while (1) {
-//		//b.txtÀÇ ¹®ÀÚ ¹Ş¾Æ¿À±â
+//		//b.txtì˜ ë¬¸ì ë°›ì•„ì˜¤ê¸°
 //		fgets(temp2, sizeof(temp2), fpb);
 //		if (feof(fpb)) {
 //			break;
@@ -163,7 +163,7 @@
 //		fseek(fpa, 0, SEEK_SET);
 //		while (1) {
 //			flag = 0;
-//			//a.txtÀÇ ¹®ÀÚ ¹Ş¾Æ¿À±â
+//			//a.txtì˜ ë¬¸ì ë°›ì•„ì˜¤ê¸°
 //			fgets(temp1, sizeof(temp1), fpa);
 //			if (feof(fpa)) {
 //				break;
@@ -198,7 +198,7 @@
 //
 //	fclose(fp);
 //
-//	printf("Ãâ·ÂÀ» ¿øÇÏ´Â ±¸±¸´ÜÀº?\n");
+//	printf("ì¶œë ¥ì„ ì›í•˜ëŠ” êµ¬êµ¬ë‹¨ì€?\n");
 //	scanf("%d", &num2);
 //
 //	fp2 = fopen("99.txt", "r");
@@ -211,7 +211,7 @@
 //		arr[strlen(arr) - 1] = '\0';
 //
 //		if (arr[0] == num2 + '0') {
-//			printf("%d´Ü\n", num2);
+//			printf("%dë‹¨\n", num2);
 //			printf("===========\n");
 //			printf("%s\n", arr);
 //			for (int i = 0; i < 8; i++) {
@@ -245,14 +245,14 @@
 //
 //	fp2 = fopen("99.txt", "r");
 //
-//	printf("Ãâ·ÂÀ» ¿øÇÏ´Â ±¸±¸´ÜÀº?\n");
+//	printf("ì¶œë ¥ì„ ì›í•˜ëŠ” êµ¬êµ¬ë‹¨ì€?\n");
 //	scanf("%d", &num);
 //
 //	fgets(arr, sizeof(arr), fp2);
 //	size = strlen(arr);
 //	fseek(fp2, (size + 1) * 9 * (num - 2), SEEK_SET);
 //	
-//	printf("%d´Ü\n", num);
+//	printf("%dë‹¨\n", num);
 //	printf("============\n");
 //	for (int i = 0; i < 9; i++) {
 //		fgets(arr, sizeof(arr), fp2);
@@ -263,35 +263,58 @@
 //	return 0;
 //}
 
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
 int main() {
 	FILE* from;
 	FILE* to;
 	char name1[100];
 	char name2[100];
-	char arr[20];
-	int ch;
+	char buf[4];
+	double curfseek = 0;
+	double totsize = 0;
 
-	printf("º¹»çÇÒ ÆÄÀÏ¸í ÀÔ·Â(È®ÀåÀÚ Æ÷ÇÔ) : ");
+	printf("ë³µì‚¬í•  íŒŒì¼ëª… ì…ë ¥(í™•ì¥ì í¬í•¨) : ");
 	fgets(name1, sizeof(name1), stdin);
 	name1[strlen(name1) - 1] = '\0';
 
-	printf("º¹»ç ÈÄ »ı¼ºµÉ ÆÄÀÏ¸í ÀÔ·Â(È®ÀåÀÚ Æ÷ÇÔ) : ");
+	from = fopen(name1, "rb+");
+
+	fseek(from, 0, SEEK_END);
+	totsize = ftell(from);
+	printf("ì´ í¬ê¸° : %.1lf ë°”ì´íŠ¸\n\n", totsize);
+
+	printf("ë³µì‚¬ í›„ ìƒì„±ë  íŒŒì¼ëª… ì…ë ¥(í™•ì¥ì í¬í•¨) : ");
 	fgets(name2, sizeof(name2), stdin);
 	name2[strlen(name2) - 1] = '\0';
 
-	from = fopen(name1, "rb+");
 	to = fopen(name2, "wb+");
 
 	fseek(from, 0, SEEK_SET);
 	while (1) {
-		ch = fgetc(from);
-		if (ch == EOF) {
+		fread(buf, sizeof(char), sizeof(buf), from);
+		if (feof(from) == 0) {
+			fwrite(buf, sizeof(char), sizeof(buf), to);
+			fseek(from, 0, SEEK_CUR);
+			curfseek = ftell(from);
+			printf("%.1lf\n", (curfseek / totsize) * 100);
+		}
+		else {
+			double temp = totsize - curfseek;
+			fseek(from, -temp, SEEK_END);
+
+			//ë²„í¼ì˜ í¬ê¸°ë³´ë‹¤ ì‘ì€ ë°ì´í„°ê°€ ë‚¨ì€ ê²½ìš°
+			char* ptr = (char*)malloc(sizeof(char));
+			for (int i = 0; i < (int)temp; i++) {
+				fread(ptr, sizeof(char), 1, from);
+				fwrite(ptr, sizeof(char), 1, to);
+			}
+			free(ptr);
 			break;
 		}
-
-		fputc(ch, to);
 	}
-
 	fclose(from);
 	fclose(to);
 
