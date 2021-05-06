@@ -2,7 +2,6 @@
 #include<stdlib.h>
 #include<windows.h>
 #include<time.h>
-//#include<conio.h>
 
 #define width 40
 #define depth 80
@@ -11,40 +10,43 @@
 #define DOWN 80
 #define RIGHT 77
 #define LEFT 75
+#define ENTER 13
+
+int Score = 0;
 
 int arr[32][31] = {
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-	{2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 2},
+	{2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2, 100, 2},
 };
 int block[7][4][4][4] = {
 	//번개 블럭
@@ -254,49 +256,43 @@ void CursorView() {
 void textcolor(int color_number) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_number);
 }
-void PrintInit() {
-	int num;
 
-	num = rand();
-	textcolor((num += 1) % 14 + 1);
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("              ######################################################################################################################\n");
-	printf("              ######################################################################################################################\n");
-	printf("              ####                ###                ###                ###                ###                ###                ###\n");
-	printf("              ##########  ##########  ########################  ##########  ############  ##########  ##########  ##################\n");
-	printf("              #########  ##########  ########################  ##########  ############  ##########  ##########  ###################\n");
-	printf("              ########  ##########  ########################  ##########  ############  ##########  ##########  ####################\n");
-	printf("              #######  ##########                ##########  ##########                ##########  ##########                #######\n");
-	printf("              ######  ##########  ########################  ##########  #########  #############  ########################  ########\n");
-	printf("              #####  ##########  ########################  ##########  ##########  ############  ########################  #########\n");
-	printf("              ####  ##########  ########################  ##########  ###########  ###########  ########################  ##########\n");
-	printf("              ###  ##########                ##########  ##########  ############  ###                ###                ###########\n");
-	printf("              ######################################################################################################################\n");
-	printf("              ######################################################################################################################\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	textcolor(15);
-	printf("                                                                게임시작                                                             \n");
-	printf("\n");
-	printf("                                                                  종료                                                               \n");
+char Title[20][120] = {
+	"######################################################################################################################",
+	"######################################################################################################################",
+	"####                ###                ###                ###                ###                ###                ###",
+	"##########  ##########  ########################  ##########  ############  ##########  ##########  ##################",
+	"#########  ##########  ########################  ##########  ############  ##########  ##########  ###################",
+	"########  ##########  ########################  ##########  ############  ##########  ##########  ####################",
+	"#######  ##########                ##########  ##########                ##########  ##########                #######",
+	"######  ##########  ########################  ##########  #########  #############  ########################  ########",
+	"#####  ##########  ########################  ##########  ##########  ############  ########################  #########",
+	"####  ##########  ########################  ##########  ###########  ###########  ########################  ##########",
+	"###  ##########                ##########  ##########  ############  ###                ###                ###########",
+	"######################################################################################################################",
+	"######################################################################################################################",
+	"                                                                                                                      ",
+	"                                                                                                                      ",
+	"                                           게임 시작                                                                  ",
+	"                                                                                                                      ",
+	"                                             종료                                                                     "
+};
 
+void PrintTitle() {
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 120; j++) {
+			gotoxy(20 + j, 10 + i);
+			printf("%c", Title[i][j]);
+		}
+	}
 }
 
 void InitGame() {
 	int input;
 	int flag = 0;
-	int curx = 60;
-	int cury = 23;
 
-	PrintInit1();
-	gotoxy(60, 23);
+	PrintTitle();
+	gotoxy(60, 25);
 	printf("▶");
 
 	while (1) {
@@ -307,18 +303,18 @@ void InitGame() {
 				if (input == DOWN) {
 					if (flag == 0) {
 						flag = 1;
-						gotoxy(60, 23);
-						printf("  ");
 						gotoxy(60, 25);
+						printf("  ");
+						gotoxy(60, 27);
 						printf("▶");
 					}
 				}
 				else if (input == UP) {
 					if (flag == 1) {
 						flag = 0;
-						gotoxy(60, 23);
-						printf("▶");
 						gotoxy(60, 25);
+						printf("▶");
+						gotoxy(60, 27);
 						printf("  ");
 					}
 				}
@@ -334,18 +330,51 @@ void InitGame() {
 	exit(0);
 }
 void PrintMap() {
-	int x;
-	int y;
-
 	for (int i = 0; i < 32; i++) {
 		for (int j = 0; j < 31; j++) {
-			if (arr[i][j] == 1) {
+			if (arr[i][j] == 0) {
 				gotoxy(6 + j, 6 + i);
-				printf("■");
+				printf("  ");
 			}
 			else if (arr[i][j] == 2) {
 				gotoxy(6 + j, 6 + i);
+				textcolor(7);
 				printf("▩");
+			}
+			else if (arr[i][j] == 1) {
+				gotoxy(6 + j, 6 + i);
+				textcolor(1);
+				printf("■");
+			}
+			else if (arr[i][j] == 4) {
+				gotoxy(6 + j, 6 + i);
+				textcolor(4);
+				printf("■");
+			}
+			else if (arr[i][j] == 5) {
+				gotoxy(6 + j, 6 + i);
+				textcolor(5);
+				printf("■");
+			}
+			else if (arr[i][j] == 6) {
+				gotoxy(6 + j, 6 + i);
+				textcolor(6);
+				printf("■");
+			}
+			else if (arr[i][j] == 8) {
+				gotoxy(6 + j, 6 + i);
+				textcolor(3);
+				printf("■");
+			}
+			else if (arr[i][j] == 10) {
+				gotoxy(6 + j, 6 + i);
+				textcolor(10);
+				printf("■");
+			}
+			else if (arr[i][j] == 11) {
+				gotoxy(6 + j, 6 + i);
+				textcolor(11);
+				printf("■");
 			}
 		}
 	}
@@ -356,12 +385,50 @@ void PrintBlock(int x, int y, int rotate, int blockindex) {
 		for (int j = 0; j < 4; j++) {
 			gotoxy(x + 2 * i, y + j - 4);
 			if (block[blockindex][nRotate][j][i] == 1) {
-				printf("■");
-				//printf("%d %d", x + 2 * i, y + j);
+				if (blockindex == 0) {
+					textcolor(1);
+					printf("■");
+				}
+				else if (blockindex == 1) {
+					textcolor(4);
+					printf("■");
+				}
+				else if (blockindex == 2) {
+					textcolor(5);
+					printf("■");
+				}
+				else if (blockindex == 3) {
+					textcolor(6);
+					printf("■");
+				}
+				else if (blockindex == 4) {
+					textcolor(3);
+					printf("■");
+				}
+				else if (blockindex == 5) {
+					textcolor(10);
+					printf("■");
+				}
+				else if (blockindex == 6) {
+					textcolor(11);
+					printf("■");
+				}
 			}
 		}
 	}
 }
+
+void EraseBlock(int curx, int cury, int rotate, int blockindex) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (block[blockindex][rotate][i][j] != 0) {
+				gotoxy(curx + 2 * j, cury + i - 4);
+				printf("  ");
+			}
+		}
+	}
+}
+
 void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 	int temp;
 	int count = 0;
@@ -373,36 +440,34 @@ void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 			if (temp == 224) {
 				temp = _getch();
 				if (temp == DOWN) {
-					system("cls");
-					PrintMap();
+					EraseBlock(curx, cury, nRotate % 4, blockindex);
 					PrintBlock(curx, cury += 1, nRotate % 4, blockindex);
 				}
 				else if (temp == RIGHT) {
 					if (curx == 28) {
 						continue;
 					}
-					system("cls");
-					PrintMap();
+					EraseBlock(curx, cury, nRotate % 4, blockindex);
 					PrintBlock(curx += 2, cury, nRotate % 4, blockindex);
 				}
 				else if (temp == LEFT) {
-					if (blockindex == 0 && rotate % 2 == 0) {
+					if (blockindex == 0 && (nRotate % 4) % 2 == 0) {
 						if (curx == 4) {
 							continue;
 						}
 					}
-					else if (blockindex == 0 && rotate % 2 == 1) {
+					else if (blockindex == 0 && (nRotate % 4) % 2 == 1) {
 						if (curx == 6) {
 							continue;
 						}
 					}
 
-					if (blockindex == 1 && rotate % 2 == 0) {
+					if (blockindex == 1 && (nRotate % 4) % 2 == 0) {
 						if (curx == 4) {
 							continue;
 						}
 					}
-					else if (blockindex == 1 && rotate % 2 == 1) {
+					else if (blockindex == 1 && (nRotate % 4) % 2 == 1) {
 						if (curx == 6) {
 							continue;
 						}
@@ -414,118 +479,114 @@ void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 						}
 					}
 
-					if (blockindex == 3 && rotate % 2 == 0) {
+					if (blockindex == 3 && (nRotate % 4) % 2 == 0) {
 						if (curx == 4) {
 							continue;
 						}
 					}
-					else if (blockindex == 3 && rotate % 2 == 1) {
+					else if (blockindex == 3 && (nRotate % 4) % 2 == 1) {
 						if (curx == 6) {
 							continue;
 						}
 					}
 
-					if (blockindex == 4 && rotate % 2 == 0) {
+					if (blockindex == 4 && (nRotate % 4) % 2 == 0) {
 						if (curx == 4) {
 							continue;
 						}
 					}
-					else if (blockindex == 4 && rotate % 2 == 1) {
+					else if (blockindex == 4 && (nRotate % 4) % 2 == 1) {
 						if (curx == 6) {
 							continue;
 						}
 					}
 
-					if (blockindex == 5 && rotate % 2 == 0) {
+					if (blockindex == 5 && (nRotate % 4) % 2 == 0) {
 						if (curx == 2) {
 							continue;
 						}
 					}
-					else if (blockindex == 5 && rotate % 2 == 1) {
+					else if (blockindex == 5 && (nRotate % 4) % 2 == 1) {
 						if (curx == 8) {
 							continue;
 						}
 					}
 
-					if (blockindex == 6 && rotate % 2 == 0) {
+					if (blockindex == 6 && (nRotate % 4) % 2 == 0) {
 						if (curx == 6) {
 							continue;
 						}
 					}
-					else if (blockindex == 6 && rotate % 2 == 1) {
+					else if (blockindex == 6 && (nRotate % 4) % 2 == 1) {
 						if (curx == 4) {
 							continue;
 						}
 					}
-
-					system("cls");
-					PrintMap();
+					EraseBlock(curx, cury, nRotate % 4, blockindex);
 					PrintBlock(curx -= 2, cury, nRotate % 4, blockindex);
 				}
 				else if (temp == UP) {
-					if (blockindex == 0 && rotate % 2 == 0) {
+					if (blockindex == 0 && (nRotate % 4) % 2 == 0) {
 						if (curx == 4) {
 							continue;
 						}
 					}
-					else if (blockindex == 0 && rotate % 2 == 1) {
-						if (curx == 4) {
-							continue;
-						}
-					}
-
-					if (blockindex == 1 && rotate % 2 == 0) {
-						if (curx == 4) {
-							continue;
-						}
-					}
-					else if (blockindex == 1 && rotate % 2 == 1) {
+					else if (blockindex == 0 && (nRotate % 4) % 2 == 1) {
 						if (curx == 4) {
 							continue;
 						}
 					}
 
-					if (blockindex == 3 && rotate % 2 == 0) {
+					if (blockindex == 1 && (nRotate % 4) % 2 == 0) {
 						if (curx == 4) {
 							continue;
 						}
 					}
-					else if (blockindex == 3 && rotate % 2 == 1) {
-						if (curx == 4) {
-							continue;
-						}
-					}
-
-					if (blockindex == 4 && rotate % 2 == 0) {
-						if (curx == 4) {
-							continue;
-						}
-					}
-					else if (blockindex == 4 && rotate % 2 == 1) {
+					else if (blockindex == 1 && (nRotate % 4) % 2 == 1) {
 						if (curx == 4) {
 							continue;
 						}
 					}
 
-					if (blockindex == 5 && rotate % 2 == 0) {
+					if (blockindex == 3 && (nRotate % 4) % 2 == 0) {
+						if (curx == 4) {
+							continue;
+						}
+					}
+					else if (blockindex == 3 && (nRotate % 4) % 2 == 1) {
+						if (curx == 4) {
+							continue;
+						}
+					}
+
+					if (blockindex == 4 && (nRotate % 4) % 2 == 0) {
+						if (curx == 4) {
+							continue;
+						}
+					}
+					else if (blockindex == 4 && (nRotate % 4) % 2 == 1) {
+						if (curx == 4) {
+							continue;
+						}
+					}
+
+					if (blockindex == 5 && (nRotate % 4) % 2 == 0) {
 						if (curx <= 6) {
 							continue;
 						}
 					}
 
-					if (blockindex == 6 && rotate % 2 == 0) {
+					if (blockindex == 6 && (nRotate % 4) % 2 == 0) {
 						if (curx == 4) {
 							continue;
 						}
 					}
-					else if (blockindex == 6 && rotate % 2 == 1) {
+					else if (blockindex == 6 && (nRotate % 4) % 2 == 1) {
 						if (curx == 4) {
 							continue;
 						}
 					}
-
-					system("cls");
-					PrintMap();
+					EraseBlock(curx, cury, nRotate % 4, blockindex);
 					nRotate += 1;
 					PrintBlock(curx, cury, nRotate % 4, blockindex);
 				}
@@ -533,19 +594,46 @@ void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 		}
 		else {
 			count += 1;
-			if (count % 2500 == 0) {
+			if (count % 10000 == 0) {
 				count = 0;
-				system("cls");
-				PrintMap();
+				EraseBlock(curx, cury, nRotate % 4, blockindex);
 				PrintBlock(curx, cury += 1, nRotate % 4, blockindex);
 			}
 		}
 	}
+	EraseBlock(curx, cury, nRotate, blockindex);
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			if (block[blockindex][nRotate % 4][i][j] == 1) {
-				arr[cury - 11 + i][curx - 6 + j * 2] = 1;
-				arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 3;
+				if (blockindex == 0) {
+					arr[cury - 11 + i][curx - 6 + j * 2] = 1;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+				}
+				else if (blockindex == 1) {
+					arr[cury - 11 + i][curx - 6 + j * 2] = 4;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+				}
+				else if (blockindex == 2) {
+					arr[cury - 11 + i][curx - 6 + j * 2] = 5;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+				}
+				else if (blockindex == 3) {
+					arr[cury - 11 + i][curx - 6 + j * 2] = 6;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+				}
+				else if (blockindex == 4) {
+					arr[cury - 11 + i][curx - 6 + j * 2] = 8;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+				}
+				else if (blockindex == 5) {
+					arr[cury - 11 + i][curx - 6 + j * 2] = 10;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+				}
+				else if (blockindex == 6) {
+					arr[cury - 11 + i][curx - 6 + j * 2] = 11;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+				}
+
 			}
 		}
 	}
@@ -689,30 +777,86 @@ int Build(int curx, int cury, int blockindex, int rotate) {
 		if (arr[cury - 8][curx] != 0 || arr[cury - 7][curx - 2] != 0) {
 			return -1;
 		}
-		return 1;
+		return 1; 
 	}
 }
+int ClearLine(int (*arr)[31]) {
+	int count = 0;
+
+	for (int i = 30; i >= 0; i--) {
+		for (int j = 1; j < 30; j++) {
+			if (arr[i][j] != 0) {
+				count++;
+			}
+		}
+		if (count == 29) {
+			for (int j = 1; j < 30; j++) {
+				arr[i][j] = 0;
+			}
+			return i;
+		}
+		else {
+			count = 0;
+		}
+	}
+	return -1;
+}
+
+void DownLine(int (*arr)[31], int index) {
+	for (int i = index; i >= 1; i--) {
+		for (int j = 1; j < 30; j++) {
+			arr[i][j] = arr[i - 1][j];
+		}
+	}
+}
+
+void Explain(int Score) {
+	gotoxy(40, 10);
+	printf("SCORE : %2d", Score);
+	gotoxy(40, 12);
+	printf("▲ : Rotate ");
+	gotoxy(40, 14);
+	printf("▼ : fall ");
+	gotoxy(40, 16);
+	printf("◀ : Left ");
+	gotoxy(40, 18);
+	printf("▶ : Right ");
+}
+
 void PlayGame() {
 	int initx = 18;
 	int inity = 5;
 	int blockindex;
+	int clear;
+
+	blockindex = 3;
 
 	srand((unsigned int)time(NULL));
 
+	system("cls");
+	PrintMap();
+
 	while (1) {
-		system("cls");
+		Explain(Score);
 		blockindex = rand() % 7;
-		//blockindex = 3;
-		PrintMap();
-		//PrintBlock(initx, inity, 0, blockindex);
+		PrintBlock(initx, inity, 0, blockindex);
 		MoveBlock(initx, inity, 0, blockindex);
+		while (1) {
+			clear = ClearLine(arr);
+			if (clear < 0) {
+				break;
+			}
+			DownLine(arr, clear);
+			Score += 10;
+		}
+		PrintMap();
 	}
 }
 
 int main() {
-	CursorView(); //커서 지우기
-	SetConsoleSize(); //콘솔 환경 설정
-	InitGame(); //시작 화면 출력 및 메뉴 선택
+	CursorView();
+	SetConsoleSize();
+	InitGame();
 	PlayGame();
 
 	return 0;
