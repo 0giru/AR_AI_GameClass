@@ -238,26 +238,6 @@ int block[7][4][4][4] = {
 },
 };
 
-//static int g_nScreenIndex;
-//static HANDLE g_hScreen[2];
-//
-//void SetScreenBuffer() {
-//	g_hScreen[0] = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-//	g_hScreen[1] = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-//}
-//
-//void ScreenFlipping() {
-//	SetConsoleActiveScreenBuffer(g_hScreen[g_nScreenIndex]);
-//	g_nScreenIndex = !g_nScreenIndex;
-//}
-//
-//void ScreenClear() {
-//	COORD Coor = { 0, 0 };
-//	DWORD dw;
-//	FillConsoleOutputCharacter(g_hScreen[g_nScreenIndex], ' ', 160 * 40, Coor, &dw);
-//}
-//
-
 void SetConsoleSize() {
 	system("mode con cols=160 lines=40");
 }
@@ -308,11 +288,7 @@ void PrintInit() {
 	printf("                                                                  종료                                                               \n");
 
 }
-void PointMenu(x, y) {
-	// default = 60, 23
-	gotoxy(x, y);
-	printf("▶");
-}
+
 void InitGame() {
 	int input;
 	int flag = 0;
@@ -367,36 +343,12 @@ void PrintMap() {
 				gotoxy(6 + j, 6 + i);
 				printf("■");
 			}
-		}
-	}
-
-	for (int col = 0; col < 31; col++) {
-		for (int row = 0; row < 32; row++) {
-				gotoxy(6 + col, 6 + row);
-			if (col == 0 || col == 30) {
+			else if (arr[i][j] == 2) {
+				gotoxy(6 + j, 6 + i);
 				printf("▩");
-				//printf("%d %d", 6 + col, 6 + row);
-				x = col;
-				y = row;
 			}
-			//else {
-			//	printf("□");
-			//}
 		}
 	}
-	gotoxy(6, 6 + y);
-	for (int i = 0; i < 16; i++) {
-		printf("▩");
-	}
-
-	//gotoxy(100, 5);
-	//printf("here");
-	//for (int i = 0; i < 32; i++) {
-	//	for (int j = 0; j < 31; j++) {
-	//		printf("%d", arr[i][j]);
-	//	}
-	//	gotoxy(100, 5 + i);
-	//}
 }
 void PrintBlock(int x, int y, int rotate, int blockindex) {
 	int nRotate = rotate % 4;
