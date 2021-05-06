@@ -315,39 +315,40 @@ void PointMenu(x, y) {
 }
 void InitGame() {
 	int input;
+	int flag = 0;
 	int curx = 60;
 	int cury = 23;
 
+	PrintInit1();
+	gotoxy(60, 23);
+	printf("▶");
+
 	while (1) {
-		system("cls");
-		PrintInit();
-		PointMenu(curx, cury);
-		Sleep(100);
 		if (_kbhit()) {
 			input = _getch();
 			if (input == 224) {
 				input = _getch();
-				if (input == 80) {
-					if (cury == 25) {
-						cury = 23;
+				if (input == DOWN) {
+					if (flag == 0) {
+						flag = 1;
+						gotoxy(60, 23);
+						printf("  ");
+						gotoxy(60, 25);
+						printf("▶");
 					}
-					else if (cury == 23) {
-						cury = 25;
-					}
-					PointMenu(curx, cury);
 				}
-				else if (input == 72) {
-					if (cury == 23) {
-						cury = 25;
+				else if (input == UP) {
+					if (flag == 1) {
+						flag = 0;
+						gotoxy(60, 23);
+						printf("▶");
+						gotoxy(60, 25);
+						printf("  ");
 					}
-					else if (cury == 25) {
-						cury = 23;
-					}
-					PointMenu(curx, cury);
 				}
 			}
-			else if (input == 13) {
-				if (cury == 25) {
+			else if (input == ENTER) {
+				if (flag == 1) {
 					break;
 				}
 				return;
