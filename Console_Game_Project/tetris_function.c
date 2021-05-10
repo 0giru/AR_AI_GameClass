@@ -248,8 +248,13 @@ char Title[20][120] = {
 	"                                             종료                                                                     "
 };
 
-void SetConsoleSize() {
+void SetConsoleSize1() {
+	CursorView();
 	system("mode con cols=160 lines=40");
+}
+void SetConsoleSize2() {
+	CursorView();
+	system("mode con cols=80 lines=40");
 }
 void gotoxy(int x, int y) {
 	COORD pos = { x,y };
@@ -264,17 +269,12 @@ void CursorView() {
 void textcolor(int color_number) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_number);
 }
-void PrintTitle() {
-	for (int i = 0; i < 20; i++) {
-		for (int j = 0; j < 120; j++) {
-			gotoxy(20 + j, 10 + i);
-			printf("%c", Title[i][j]);
-		}
-	}
-}
+
 void InitGame() {
 	int input;
 	int flag = 0;
+
+	SetConsoleSize1();
 
 	PrintTitle();
 	gotoxy(60, 25);
@@ -314,7 +314,56 @@ void InitGame() {
 	}
 	exit(0);
 }
+void PrintTitle() {
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 120; j++) {
+			gotoxy(20 + j, 10 + i);
+			printf("%c", Title[i][j]);
+		}
+	}
+}
+
+void PlayGame() {
+	int initx = 18;
+	int inity = 5;
+	int curBlock;
+	int nxtBlock;
+	int clear;
+
+	SetConsoleSize2();
+
+	clock_t start = clock();
+
+	srand((unsigned int)time(NULL));
+
+	system("cls");
+	PrintMap();
+
+	curBlock = rand() % 7;
+	while (1) {
+		nxtBlock = rand() % 7;
+		Explain(Score, curBlock, nxtBlock);
+		PrintBlock(initx, inity, 0, curBlock);
+		MoveBlock(initx, inity, 0, curBlock);
+		while (1) {
+			clear = ClearLine(arr);
+			if (clear < 0) {
+				break;
+			}
+			DownLine(arr, clear);
+			Score += 10;
+		}
+		PrintMap();
+		curBlock = nxtBlock;
+	}
+}
 void PrintMap() {
+	for (int i = 0; i < 11; i++) {
+		for (int j = 0; j < 38; j++) {
+			gotoxy(j, i);
+			printf("  ");
+		}
+	}
 	for (int i = 0; i < 32; i++) {
 		for (int j = 0; j < 31; j++) {
 			if (arr[i][j] == 0) {
@@ -330,6 +379,7 @@ void PrintMap() {
 				gotoxy(6 + j, 6 + i);
 				textcolor(1);
 				printf("■");
+
 			}
 			else if (arr[i][j] == 4) {
 				gotoxy(6 + j, 6 + i);
@@ -360,6 +410,48 @@ void PrintMap() {
 				gotoxy(6 + j, 6 + i);
 				textcolor(11);
 				printf("■");
+			}
+		}
+	}
+}
+void Explain(int Score, int curblockerase, int nxtblockprint) {
+	gotoxy(40, 10);
+	printf("SCORE : %2d", Score);
+	gotoxy(40, 12);
+	printf("▲ : Rotate ");
+	gotoxy(40, 14);
+	printf("▼ : Fall ");
+	gotoxy(40, 16);
+	printf("◀ : Left ");
+	gotoxy(40, 18);
+	printf("▶ : Right ");
+	gotoxy(40, 20);
+	printf("Space Bar : Drop ");
+
+	gotoxy(40, 25);
+	printf("==== NEXT ====");
+	gotoxy(40, 26);
+	printf("=            =");
+	gotoxy(40, 27);
+	printf("=            =");
+	gotoxy(40, 28);
+	printf("=            =");
+	gotoxy(40, 29);
+	printf("=            =");
+	gotoxy(40, 30);
+	printf("=            =");
+	gotoxy(40, 31);
+	printf("==============");
+
+	EraseBlock(41, 30, 0, curblockerase);
+	PrintBlock(41, 30, 0, nxtblockprint);
+}
+void EraseBlock(int curx, int cury, int rotate, int blockindex) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (block[blockindex][rotate][i][j] != 0) {
+				gotoxy(curx + 2 * j, cury + i - 4);
+				printf("  ");
 			}
 		}
 	}
@@ -402,24 +494,25 @@ void PrintBlock(int x, int y, int rotate, int blockindex) {
 		}
 	}
 }
-void EraseBlock(int curx, int cury, int rotate, int blockindex) {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			if (block[blockindex][rotate][i][j] != 0) {
-				gotoxy(curx + 2 * j, cury + i - 4);
-				printf("  ");
-			}
-		}
-	}
-}
 void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 	int temp;
 	int count = 0;
 	int nRotate = rotate;
 
 	while (Build(curx, cury, blockindex, nRotate % 4) > 0) {
+		clock_t start = clock();
+		if (start % 1000 == 0) {
+			EraseBlock(curx, cury, nRotate % 4, blockindex);
+			PrintBlock(curx, cury += 1, nRotate % 4, blockindex);
+		}
 		if (_kbhit()) {
 			temp = _getch();
+			if (temp == 32) {
+				while (Build(curx, cury, blockindex, nRotate % 4) > 0) {
+					cury += 1;
+				}
+				break;
+			}
 			if (temp == 224) {
 				temp = _getch();
 				if (temp == DOWN) {
@@ -427,9 +520,112 @@ void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 					PrintBlock(curx, cury += 1, nRotate % 4, blockindex);
 				}
 				else if (temp == RIGHT) {
-					if (curx == 28) {
+					if (curx >= 28) {
 						continue;
 					}
+					if (blockindex == 0 && (nRotate % 4) % 2 == 0) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx + 2] != 0 || arr[cury - 9][curx + 2] != 0) {
+							continue;
+						}
+
+					}
+					else if (blockindex == 0 && (nRotate % 4) % 2 == 1) {
+						if (arr[cury - 7][curx] != 0 || arr[cury - 8][curx + 2] != 0) {
+							continue;
+						}
+					}
+
+					if (blockindex == 1 && (nRotate % 4) % 2 == 0) {
+						if (arr[cury - 7][curx] != 0 || arr[cury - 8][curx + 2] != 0 || arr[cury - 9][curx + 2] != 0) {
+							continue;
+						}
+					}
+					else if (blockindex == 1 && (nRotate % 4) % 2 == 1) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx] != 0) {
+							continue;
+						}
+					}
+
+					if (blockindex == 2) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx + 2] != 0) {
+							continue;
+						}
+					}
+
+					if (blockindex == 3 && (nRotate % 4) == 0) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx] != 0 || arr[cury - 9][curx]) {
+							continue;
+						}
+					}
+					if (blockindex == 3 && (nRotate % 4) == 1) {
+						if (arr[cury - 7][curx - 2] != 0 || arr[cury - 8][curx + 2] != 0) {
+							continue;
+						}
+					}
+					if (blockindex == 3 && (nRotate % 4) == 2) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx + 2] != 0 || arr[cury - 9][curx + 2]) {
+							continue;
+						}
+					}
+					else if (blockindex == 3 && (nRotate % 4) == 3) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx + 2] != 0) {
+							continue;
+						}
+					}
+
+					if (blockindex == 4 && (nRotate % 4) == 0) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx + 2] != 0 || arr[cury - 9][curx + 2] != 0) {
+							continue;
+						}
+					}
+					if (blockindex == 4 && (nRotate % 4) == 1) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx - 2] != 0) {
+							continue;
+						}
+					}
+					if (blockindex == 4 && (nRotate % 4) == 2) {
+						if (arr[cury - 7][curx] != 0 || arr[cury - 8][curx] != 0 || arr[cury - 9][curx + 2] != 0) {
+							continue;
+						}
+					}
+					else if (blockindex == 4 && (nRotate % 4) == 3) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx + 2] != 0) {
+							continue;
+						}
+					}
+
+					if (blockindex == 5 && (nRotate % 4) % 2 == 0) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx + 2] != 0 || arr[cury - 9][curx + 2] != 0 || arr[cury - 10][curx + 2] != 0) {
+							continue;
+						}
+					}
+					else if (blockindex == 5 && (nRotate % 4) % 2 == 1) {
+						if (arr[cury - 7][curx + 2] != 0) {
+							continue;
+						}
+					}
+
+					if (blockindex == 6 && (nRotate % 4) == 0) {
+						if (arr[cury - 7][curx] != 0 || arr[cury - 8][curx + 2] != 0) {
+							continue;
+						}
+					}
+					if (blockindex == 6 && (nRotate % 4) == 1) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx + 2] != 0 || arr[cury - 9][curx + 2] != 0) {
+							continue;
+						}
+					}
+					if (blockindex == 6 && (nRotate % 4) == 2) {
+						if (arr[cury - 7][curx + 2] != 0 || arr[cury - 8][curx] != 0) {
+							continue;
+						}
+					}
+					else if (blockindex == 6 && (nRotate % 4) == 3) {
+						if (arr[cury - 7][curx] != 0 || arr[cury - 8][curx + 2] != 0 || arr[cury - 9][curx] != 0) {
+							continue;
+						}
+					}
+
 					EraseBlock(curx, cury, nRotate % 4, blockindex);
 					PrintBlock(curx += 2, cury, nRotate % 4, blockindex);
 				}
@@ -438,9 +634,16 @@ void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 						if (curx == 4) {
 							continue;
 						}
+						if (arr[cury - 7][curx - 2] != 0 || arr[cury - 8][curx - 4] != 0 || arr[cury - 9][curx - 4] != 0) {
+							continue;
+						}
+
 					}
 					else if (blockindex == 0 && (nRotate % 4) % 2 == 1) {
 						if (curx == 6) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 6] != 0 || arr[cury - 8][curx - 4] != 0) {
 							continue;
 						}
 					}
@@ -449,9 +652,15 @@ void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 						if (curx == 4) {
 							continue;
 						}
+						if (arr[cury - 7][curx - 4] != 0 || arr[cury - 8][curx - 4] != 0) {
+							continue;
+						}
 					}
 					else if (blockindex == 1 && (nRotate % 4) % 2 == 1) {
 						if (curx == 6) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 4] != 0 || arr[cury - 8][curx - 6] != 0) {
 							continue;
 						}
 					}
@@ -460,26 +669,73 @@ void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 						if (curx == 4) {
 							continue;
 						}
-					}
-
-					if (blockindex == 3 && (nRotate % 4) % 2 == 0) {
-						if (curx == 4) {
-							continue;
-						}
-					}
-					else if (blockindex == 3 && (nRotate % 4) % 2 == 1) {
-						if (curx == 6) {
+						if (arr[cury - 7][curx - 4] != 0 || arr[cury - 8][curx - 4] != 0) {
 							continue;
 						}
 					}
 
-					if (blockindex == 4 && (nRotate % 4) % 2 == 0) {
+					if (blockindex == 3 && (nRotate % 4) == 0) {
 						if (curx == 4) {
 							continue;
 						}
+						if (arr[cury - 7][curx - 4] != 0 || arr[cury - 8][curx - 4] != 0 || arr[cury - 9][curx - 4]) {
+							continue;
+						}
 					}
-					else if (blockindex == 4 && (nRotate % 4) % 2 == 1) {
+					if (blockindex == 3 && (nRotate % 4) == 1) {
 						if (curx == 6) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 6] != 0 || arr[cury - 8][curx - 6] != 0) {
+							continue;
+						}
+					}
+					if (blockindex == 3 && (nRotate % 4) == 2) {
+						if (curx == 4) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 2] != 0 || arr[cury - 8][curx - 2] != 0 || arr[cury - 9][curx - 4]) {
+							continue;
+						}
+					}
+					else if (blockindex == 3 && (nRotate % 4) == 3) {
+						if (curx == 6) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 6] != 0 || arr[cury - 8][curx - 2] != 0) {
+							continue;
+						}
+					}
+
+					if (blockindex == 4 && (nRotate % 4) == 0) {
+						if (curx == 4) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 4] != 0 || arr[cury - 8][curx - 2] != 0 || arr[cury - 9][curx - 2] != 0) {
+							continue;
+						}
+					}
+					if (blockindex == 4 && (nRotate % 4) == 1) {
+						if (curx == 6) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 6] != 0 || arr[cury - 8][curx - 6] != 0) {
+							continue;
+						}
+					}
+					if (blockindex == 4 && (nRotate % 4) == 2) {
+						if (curx == 4) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 4] != 0 || arr[cury - 8][curx - 2] != 0 || arr[cury - 9][curx - 2] != 0) {
+							continue;
+						}
+					}
+					else if (blockindex == 4 && (nRotate % 4) == 3) {
+						if (curx == 6) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 2] != 0 || arr[cury - 8][curx - 6] != 0) {
 							continue;
 						}
 					}
@@ -488,20 +744,48 @@ void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 						if (curx == 2) {
 							continue;
 						}
+						if (arr[cury - 7][curx - 2] != 0 || arr[cury - 8][curx - 2] != 0 || arr[cury - 9][curx - 2] != 0 || arr[cury - 10][curx - 2] != 0) {
+							continue;
+						}
 					}
 					else if (blockindex == 5 && (nRotate % 4) % 2 == 1) {
 						if (curx == 8) {
 							continue;
 						}
-					}
-
-					if (blockindex == 6 && (nRotate % 4) % 2 == 0) {
-						if (curx == 6) {
+						if (arr[cury - 7][curx - 8] != 0) {
 							continue;
 						}
 					}
-					else if (blockindex == 6 && (nRotate % 4) % 2 == 1) {
+
+					if (blockindex == 6 && (nRotate % 4) == 0) {
+						if (curx == 6) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 4] != 0 || arr[cury - 8][curx - 6] != 0) {
+							continue;
+						}
+					}
+					if (blockindex == 6 && (nRotate % 4) == 1) {
 						if (curx == 4) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 2] != 0 || arr[cury - 8][curx - 4] != 0 || arr[cury - 9][curx - 2] != 0) {
+							continue;
+						}
+					}
+					if (blockindex == 6 && (nRotate % 4) == 2) {
+						if (curx == 6) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 6] != 0 || arr[cury - 8][curx - 4] != 0) {
+							continue;
+						}
+					}
+					else if (blockindex == 6 && (nRotate % 4) == 3) {
+						if (curx == 4) {
+							continue;
+						}
+						if (arr[cury - 7][curx - 4] != 0 || arr[cury - 8][curx - 4] != 0 || arr[cury - 9][curx - 4] != 0) {
 							continue;
 						}
 					}
@@ -575,14 +859,6 @@ void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 				}
 			}
 		}
-		else {
-			count += 1;
-			if (count % 10000 == 0) {
-				count = 0;
-				EraseBlock(curx, cury, nRotate % 4, blockindex);
-				PrintBlock(curx, cury += 1, nRotate % 4, blockindex);
-			}
-		}
 	}
 	EraseBlock(curx, cury, nRotate, blockindex);
 	for (int i = 0; i < 4; i++) {
@@ -590,31 +866,31 @@ void MoveBlock(int curx, int cury, int rotate, int blockindex) {
 			if (block[blockindex][nRotate % 4][i][j] == 1) {
 				if (blockindex == 0) {
 					arr[cury - 11 + i][curx - 6 + j * 2] = 1;
-					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 100;
 				}
 				else if (blockindex == 1) {
 					arr[cury - 11 + i][curx - 6 + j * 2] = 4;
-					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 100;
 				}
 				else if (blockindex == 2) {
 					arr[cury - 11 + i][curx - 6 + j * 2] = 5;
-					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 100;
 				}
 				else if (blockindex == 3) {
 					arr[cury - 11 + i][curx - 6 + j * 2] = 6;
-					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 100;
 				}
 				else if (blockindex == 4) {
 					arr[cury - 11 + i][curx - 6 + j * 2] = 8;
-					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 100;
 				}
 				else if (blockindex == 5) {
 					arr[cury - 11 + i][curx - 6 + j * 2] = 10;
-					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 100;
 				}
 				else if (blockindex == 6) {
 					arr[cury - 11 + i][curx - 6 + j * 2] = 11;
-					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 101;
+					arr[cury - 11 + i][curx - 6 + j * 2 - 1] = 100;
 				}
 
 			}
@@ -765,7 +1041,6 @@ int Build(int curx, int cury, int blockindex, int rotate) {
 }
 int ClearLine(int(*arr)[31]) {
 	int count = 0;
-
 	for (int i = 30; i >= 0; i--) {
 		for (int j = 1; j < 30; j++) {
 			if (arr[i][j] != 0) {
@@ -789,46 +1064,5 @@ void DownLine(int(*arr)[31], int index) {
 		for (int j = 1; j < 30; j++) {
 			arr[i][j] = arr[i - 1][j];
 		}
-	}
-}
-void Explain(int Score) {
-	gotoxy(40, 10);
-	printf("SCORE : %2d", Score);
-	gotoxy(40, 12);
-	printf("▲ : Rotate ");
-	gotoxy(40, 14);
-	printf("▼ : Fall ");
-	gotoxy(40, 16);
-	printf("◀ : Left ");
-	gotoxy(40, 18);
-	printf("▶ : Right ");
-}
-void PlayGame() {
-	int initx = 18;
-	int inity = 5;
-	int blockindex;
-	int clear;
-
-	blockindex = 3;
-
-	srand((unsigned int)time(NULL));
-
-	system("cls");
-	PrintMap();
-
-	while (1) {
-		Explain(Score);
-		blockindex = rand() % 7;
-		PrintBlock(initx, inity, 0, blockindex);
-		MoveBlock(initx, inity, 0, blockindex);
-		while (1) {
-			clear = ClearLine(arr);
-			if (clear < 0) {
-				break;
-			}
-			DownLine(arr, clear);
-			Score += 10;
-		}
-		PrintMap();
 	}
 }
