@@ -1,15 +1,15 @@
 #include<stdio.h>
 #include<math.h>
-//Áø¼ö º¯È¯ ÇÁ·Î±×·¥
+//ì§„ìˆ˜ ë³€í™˜ í”„ë¡œê·¸ëž¨
 
 
 int main() {
-	char arr[36] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+	char arr[36] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
 		'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 	};
 
-	char result[100] = {0,};
+	char result[100] = { 0, };
 
 	int base;
 	int num;
@@ -19,22 +19,47 @@ int main() {
 	int rest = 0;
 	int count = 0;
 
-	printf("Áø¼ö ÀÔ·Â : ");
+	printf("ì§„ìˆ˜ ìž…ë ¥ : ");
 	scanf("%d", &base);
-	printf("Áø¼ö °ª ÀÔ·Â : ");
-	scanf("%f", &num);
-	printf("Á¦¼ö ÀÔ·Â : ");
+	printf("ì§„ìˆ˜ ê°’ ìž…ë ¥ : ");
+	scanf("%d", &num);
+	printf("ì œìˆ˜ ìž…ë ¥ : ");
 	scanf("%d", &divisor);
 
 	int temp = 1;
 	int count2 = 0;
-	while (temp <= (int)num) {
+	while (temp <= num) {
 		temp *= 10;
 		count2 += 1;
 	}
 
-	printf("%d", decimal);
+	int temp2 = num;
+	for (int i = 0; i < count2; i++) {
+		int temp3 = 1;
+		for (int j = 0; j < i; j++) {
+			temp3 *= base;
+		}
+		int temp4 = temp2 % 10;
+		decimal += temp4 * temp3;
+		temp2 /= 10;
+	}
+	
+	while (decimal >= divisor) {
+		quot = decimal / divisor;
+		rest = decimal % divisor;
+		result[count] = arr[rest];
+		decimal = quot;
 
+		count += 1;
+	}
+
+	result[count] = arr[decimal];
+
+	printf("%dì§„ìˆ˜ %dëŠ” %dì§„ìˆ˜ë¡œ ", base, num, divisor);
+	for (int i = count; i >= 0; i--) {
+		printf("%c", result[i]);
+	}
+	printf("ìž…ë‹ˆë‹¤.");
 
 	return 0;
 }
